@@ -1,0 +1,8 @@
+C-means méthode de segmentation (découper image en plusieurs parties)
+
+En logique floue ça existe aussi mais différentes adaptations
+Ici on utilise le Fuzzy C-Means (FCM), la plus simple
+
+classes = nombres de parties qu'on veut
+centroïde = genre de centre de gravité d'une zone de l'image
+
