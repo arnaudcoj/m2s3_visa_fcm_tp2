@@ -144,15 +144,11 @@ public class FCM_Visa_ implements PlugIn {
 
 		// Initialisation des degr�s d'appartenance
 		// A COMPLETER
-		for (i = 0; i < kmax; i++) {
+		for (i = 0; i < nbclasses; i++) {
 			for (j = 0; j < nbpixels; j++) {
 				double uij = 0.;
 				for(k = 0; k < kmax; k++) {
-					double num = Dprev[k][i];
-					double den = Dprev[k][j];
-					
-					uij += Math.pow(num / den, 2. / (m - 1.));						
-
+					uij += Math.pow(Dprev[k][i] / Dprev[k][j], 2. / (m - 1.));
 				}
 				Uprev[i][j] = Math.pow(uij, -1.);
 			}
@@ -173,13 +169,66 @@ public class FCM_Visa_ implements PlugIn {
 		while ((iter < itermax) && (stab > seuil)) {
 
 			// Update the matrix of centroids
+			for (k = 0; k < nbclasses; k++) {
+				double rNum = 0d;
+				double gNum = 0d;
+				double bNum = 0d;
+
+				double den = 0d;
+				
+				for(i = 0; i < nbpixels; i++) {
+					rNum += Math.pow(Uprev[k][i], m) * red[i];
+					gNum += Math.pow(Uprev[k][i], m) * green[i];
+					bNum += Math.pow(Uprev[k][i], m) * blue[i];
+					den += Math.pow(Uprev[k][i], m);
+				}
+				
+				c[k][0] = rNum / den;
+				c[k][1] = gNum / den;
+				c[k][2] = gNum / den;
+			}
+			
 			// Compute Dmat, the matrix of distances (euclidian) with the
 			// centro�ds
-
+			for (k = 0; k < kmax; k++) {
+				for (i = 0; i < nbpixels; i++) {
+					double r2 = Math.pow(red[i] - c[k][0], 2);
+					double g2 = Math.pow(green[i] - c[k][1], 2);
+					double b2 = Math.pow(blue[i] - c[k][2], 2);
+					Dmat[k][i] = r2 + g2 + b2;
+				}
+			}
+			
 			// Calculate difference between the previous partition and the new
 			// partition (performance index)
-
+			
+			//degre d'appartenance
+			for (i = 0; i < nbclasses; i++) {
+				for (j = 0; j < nbpixels; j++) {
+					double uij = 0.;
+					for(k = 0; k < kmax; k++) {
+						uij += Math.pow(Dmat[k][i] / Dmat[k][j], 2. / (m - 1.));
+					}
+					Umat[i][j] = 1d / uij;
+				}
+			}
+			
+			for(i = 0; i < nbclasses; i++) {
+				for (j = 0; j < nbpixels; j++) {
+					figJ[iter] = Math.pow(Umat[i][j], m) * Dmat[i][j];
+				}
+			}
+			
+			if(iter > 0)
+				stab = figJ[iter] - figJ[iter - 1];
+			
 			iter++;
+			
+			Dprev = Dmat;
+			Uprev = Umat;
+			Umat = new double[nbclasses][nbpixels];
+			Uprev = new double[nbclasses][nbpixels];
+			
 			////////////////////////////////////////////////////////
 
 			// Affichage de l'image segment�e
