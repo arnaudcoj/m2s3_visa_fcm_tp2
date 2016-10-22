@@ -190,7 +190,7 @@ public class FCM_Visa_ implements PlugIn {
 				if(den > 0) {
 					c[k][0] = rNum / den;
 					c[k][1] = gNum / den;
-					c[k][2] = gNum / den;
+					c[k][2] = bNum / den;
 				}
 			}
 			
