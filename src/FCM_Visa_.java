@@ -148,7 +148,11 @@ public class FCM_Visa_ implements PlugIn {
 			for (j = 0; j < nbpixels; j++) {
 				double uij = 0.;
 				for(k = 0; k < kmax; k++) {
-					uij += Math.pow(Dprev[k][i] / Dprev[k][j], 2. / (m - 1.));
+					if (Dprev[k][j] != 0) {
+						uij += Math.pow(Dprev[i][j] / Dprev[k][j], 2. / (m - 1.));
+					} else {
+						uij += 1d;
+					}
 				}
 				Uprev[i][j] = Math.pow(uij, -1.);
 			}
@@ -183,9 +187,11 @@ public class FCM_Visa_ implements PlugIn {
 					den += Math.pow(Uprev[k][i], m);
 				}
 				
-				c[k][0] = rNum / den;
-				c[k][1] = gNum / den;
-				c[k][2] = gNum / den;
+				if(den > 0) {
+					c[k][0] = rNum / den;
+					c[k][1] = gNum / den;
+					c[k][2] = gNum / den;
+				}
 			}
 			
 			// Compute Dmat, the matrix of distances (euclidian) with the
@@ -207,7 +213,11 @@ public class FCM_Visa_ implements PlugIn {
 				for (j = 0; j < nbpixels; j++) {
 					double uij = 0.;
 					for(k = 0; k < kmax; k++) {
-						uij += Math.pow(Dmat[k][i] / Dmat[k][j], 2. / (m - 1.));
+						if (Dmat[k][j] != 0) {
+							uij += Math.pow(Dmat[i][j] / Dmat[k][j], 2. / (m - 1.));
+						} else {
+							uij += 1d;
+						}
 					}
 					Umat[i][j] = 1d / uij;
 				}
@@ -221,13 +231,15 @@ public class FCM_Visa_ implements PlugIn {
 			
 			if(iter > 0)
 				stab = figJ[iter] - figJ[iter - 1];
-			
+			System.out.println(iter);
 			iter++;
 			
-			Dprev = Dmat;
-			Uprev = Umat;
-			Umat = new double[nbclasses][nbpixels];
-			Uprev = new double[nbclasses][nbpixels];
+			for (k = 0; k < kmax; k++) {
+				for (i = 0; i < nbpixels; i++) {
+					Dprev[k][i] = Dmat[k][i];
+					Uprev[k][i] = Umat[k][i];
+				}
+			}
 			
 			////////////////////////////////////////////////////////
 
@@ -251,6 +263,8 @@ public class FCM_Visa_ implements PlugIn {
 			impseg.updateAndDraw();
 			//////////////////////////////////
 		} // Fin boucle
+		
+		System.out.println("the end");
 
 		double[] xplot = new double[itermax];
 		double[] yplot = new double[itermax];
