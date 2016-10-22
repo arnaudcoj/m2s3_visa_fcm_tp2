@@ -4,5 +4,11 @@ En logique floue ça existe aussi mais différentes adaptations
 Ici on utilise le Fuzzy C-Means (FCM), la plus simple
 
 classes = nombres de parties qu'on veut
-centroïde = genre de centre de gravité d'une zone de l'image
+centroide = genre de centre de gravité d'une zone de l'image
 
+fcm param :
+classes 6
+m 2
+nb Iter = 100
+seuil = 0.0000000001 (y'a ptet encore des 0, mais tu vois l'idee)
+random = 1 ¯\_(ツ)_/¯

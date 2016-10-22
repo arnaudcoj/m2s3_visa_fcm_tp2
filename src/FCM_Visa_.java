@@ -231,7 +231,7 @@ public class FCM_Visa_ implements PlugIn {
 			
 			if(iter > 0)
 				stab = figJ[iter] - figJ[iter - 1];
-			System.out.println(iter);
+		
 			iter++;
 			
 			for (k = 0; k < kmax; k++) {
@@ -264,8 +264,6 @@ public class FCM_Visa_ implements PlugIn {
 			//////////////////////////////////
 		} // Fin boucle
 		
-		System.out.println("the end");
-
 		double[] xplot = new double[itermax];
 		double[] yplot = new double[itermax];
 		for (int w = 0; w < itermax; w++) {
