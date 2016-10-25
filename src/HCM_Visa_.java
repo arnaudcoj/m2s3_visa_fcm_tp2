@@ -11,7 +11,7 @@ import ij.gui.Plot;
 import ij.plugin.PlugIn;
 import ij.process.ImageProcessor;
 
-public class FCM_Visa_ implements PlugIn {
+public class HCM_Visa_ implements PlugIn {
 
 	class Vec {
 		int[] data = new int[3]; // *pointeur sur les composantes*/
@@ -51,7 +51,7 @@ public class FCM_Visa_ implements PlugIn {
 		int nbclasses, nbpixels, iter;
 		double stab, seuil, valeur_seuil;
 		int i, j, k, l, imax, jmax, kmax;
-
+/*
 		String demande = JOptionPane.showInputDialog("Nombre de classes : ");
 		nbclasses = Integer.parseInt(demande);
 		nbpixels = width * height; // taille de l'image en pixels
@@ -67,8 +67,8 @@ public class FCM_Visa_ implements PlugIn {
 
 		demande = JOptionPane.showInputDialog("Randomisation am�lior�e ? ");
 		int valeur = Integer.parseInt(demande);
+*/
 		
-		/*
 		//mes valeurs par defaut, pour debug
 		nbclasses = 6;
 		nbpixels = width * height;
@@ -76,7 +76,6 @@ public class FCM_Visa_ implements PlugIn {
 		int itermax = 100;
 		valeur_seuil = 0.000001;
 		int valeur = 1;
-		*/
 		
 		
 		double c[][] = new double[nbclasses][3];
@@ -159,13 +158,11 @@ public class FCM_Visa_ implements PlugIn {
 			for (j = 0; j < nbpixels; j++) {
 				double uij = 0.;
 				for(k = 0; k < kmax; k++) {
-					if (Dprev[k][j] != 0) {
-						uij += Math.pow(Dprev[i][j] / Dprev[k][j], 2d / (m - 1d));
-					} else {
-						uij += 1d;
+					if (k != i && Dmat[i][j] >= Dmat[k][j]) {
+						uij = 0d;
 					}
 				}
-				Uprev[i][j] = Math.pow(uij, -1d);
+				Uprev[i][j] = uij;
 			}
 		}
 		
@@ -222,15 +219,13 @@ public class FCM_Visa_ implements PlugIn {
 			//degre d'appartenance
 			for (i = 0; i < nbclasses; i++) {
 				for (j = 0; j < nbpixels; j++) {
-					double uij = 0.;
+					double uij = 1d;
 					for(k = 0; k < kmax; k++) {
-						if (Dmat[k][j] != 0) {
-							uij += Math.pow(Dmat[i][j] / Dmat[k][j], 2. / (m - 1.));
-						} else {
-							uij += 1d;
+						if (k != i && Dmat[i][j] >= Dmat[k][j]) {
+							uij = 0d;
 						}
 					}
-					Umat[i][j] = 1d / uij;
+					Umat[i][j] = uij;
 				}
 			}
 			
