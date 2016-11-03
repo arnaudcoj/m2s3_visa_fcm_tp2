@@ -234,9 +234,10 @@ public class FCM_Visa_ implements PlugIn {
 				}
 			}
 			
+			figJ[iter] = 0;
 			for(i = 0; i < nbclasses; i++) {
 				for (j = 0; j < nbpixels; j++) {
-					figJ[iter] = Math.pow(Umat[i][j], m) * Dmat[i][j];
+					figJ[iter] += Math.pow(Umat[i][j], m) * Dmat[i][j];
 				}
 			}
 			

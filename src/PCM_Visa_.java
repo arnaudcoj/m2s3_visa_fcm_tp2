@@ -74,7 +74,7 @@ public class PCM_Visa_ implements PlugIn {
 		nbpixels = width * height;
 		double m = 2d;
 		int itermax = 100;
-		valeur_seuil = 0.000001;
+		valeur_seuil = 0;
 		int valeur = 1;
 		
 		
@@ -212,35 +212,48 @@ public class PCM_Visa_ implements PlugIn {
 			// Calculate difference between the previous partition and the new
 			// partition (performance index)
 			
-			double[] n = new double[nbclasses];//TODO
-			
-			//degre d'appartenance
+			//compute n_i
+			double[] n = new double[nbclasses];
+
 			for (i = 0; i < nbclasses; i++) {
-				double n_i = 1d;
-				
-				{//compute n_i
 					double num = 0d;
 					double den = 0d;
 					for(j = 0; j < nbpixels; j++) {
 						num += Math.pow(Uprev[i][j], m) * Dprev[i][j];
 						den += Math.pow(Uprev[i][j], m);
-						if (den != 0)
-							n_i = num / den;
 					}
-				}
-				
+					if (den != 0)
+						n[i] = num / den;
+					else
+						n[i] = 1d;
+			}
+			
+			//degre d'appartenance
+			
+			for (i = 0; i < nbclasses; i++) {
 				for (j = 0; j < nbpixels; j++) {
 					double uij = 0d;
 					//pas sur
-					uij = 1d / (1d + Math.pow(Dmat[i][j] / n_i, 1d / (m - 1d)));
+					uij = 1d / (1d + Math.pow(Dmat[i][j] / n[i], 1d / (m - 1d)));
 					Umat[i][j] = uij;
 				}
 			}
 			
-			for(i = 0; i < nbclasses; i++) {
-				for (j = 0; j < nbpixels; j++) {
-					figJ[iter] = Math.pow(Umat[i][j], m) * Dmat[i][j];
+			//compute performance index
+			{
+				figJ[iter] = 0;
+				double first_sum = 1;
+				double second_sum = 1;
+				for(i = 0; i < nbclasses; i++) {
+					first_sum = 0;
+					second_sum = 0;
+					for (j = 0; j < nbpixels; j++) {
+						 first_sum += Math.pow(Umat[i][j], m) * Dmat[i][j];
+						 second_sum += Math.pow(1 - Umat[i][j], m);
+					}
+					second_sum *= n[i];
 				}
+				figJ[iter] = first_sum + second_sum;
 			}
 			
 			if(iter > 0)

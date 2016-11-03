@@ -35,7 +35,7 @@ public class HCM_Visa_ implements PlugIn {
 		ImagePlus imp;
 		ImagePlus impseg;
 		ImagePlus impJ;
-		IJ.showMessage("Algorithme FCM", "If ready, Press OK");
+		IJ.showMessage("Algorithme HCM", "If ready, Press OK");
 		ImagePlus cw;
 
 		imp = WindowManager.getCurrentImage();
@@ -44,14 +44,14 @@ public class HCM_Visa_ implements PlugIn {
 		int width = ip.getWidth();
 		int height = ip.getHeight();
 
-		impseg = NewImage.createImage("Image segment�e par FCM", width, height, 1, 24, 0);
+		impseg = NewImage.createImage("Image segment�e par HCM", width, height, 1, 24, 0);
 		ipseg = impseg.getProcessor();
 		impseg.show();
 
 		int nbclasses, nbpixels, iter;
 		double stab, seuil, valeur_seuil;
 		int i, j, k, l, imax, jmax, kmax;
-/*
+
 		String demande = JOptionPane.showInputDialog("Nombre de classes : ");
 		nbclasses = Integer.parseInt(demande);
 		nbpixels = width * height; // taille de l'image en pixels
@@ -67,8 +67,8 @@ public class HCM_Visa_ implements PlugIn {
 
 		demande = JOptionPane.showInputDialog("Randomisation am�lior�e ? ");
 		int valeur = Integer.parseInt(demande);
-*/
-		
+
+		/*
 		//mes valeurs par defaut, pour debug
 		nbclasses = 6;
 		nbpixels = width * height;
@@ -76,7 +76,7 @@ public class HCM_Visa_ implements PlugIn {
 		int itermax = 100;
 		valeur_seuil = 0.000001;
 		int valeur = 1;
-		
+		*/
 		
 		double c[][] = new double[nbclasses][3];
 		double cprev[][] = new double[nbclasses][3];
@@ -108,7 +108,7 @@ public class HCM_Visa_ implements PlugIn {
 			}
 		}
 		////////////////////////////////
-		// FCM
+		// HCM
 		///////////////////////////////
 
 		imax = nbpixels; // nombre de pixels dans l'image
@@ -167,7 +167,7 @@ public class HCM_Visa_ implements PlugIn {
 		}
 		
 		////////////////////////////////////////////////////////////
-		// FIN INITIALISATION FCM
+		// FIN INITIALISATION HCM
 		///////////////////////////////////////////////////////////
 
 		/////////////////////////////////////////////////////////////
@@ -229,9 +229,10 @@ public class HCM_Visa_ implements PlugIn {
 				}
 			}
 			
+			figJ[iter] = 0;
 			for(i = 0; i < nbclasses; i++) {
 				for (j = 0; j < nbpixels; j++) {
-					figJ[iter] = Math.pow(Umat[i][j], m) * Dmat[i][j];
+					figJ[iter] += Math.pow(Umat[i][j], m) * Dmat[i][j];
 				}
 			}
 			
@@ -276,11 +277,11 @@ public class HCM_Visa_ implements PlugIn {
 			xplot[w] = (double) w;
 			yplot[w] = (double) figJ[w];
 		}
-		Plot plot = new Plot("Performance Index (FCM)", "iterations", "J(P) value", xplot, yplot);
+		Plot plot = new Plot("Performance Index (HCM)", "iterations", "J(P) value", xplot, yplot);
 		plot.setLineWidth(2);
 		plot.setColor(Color.blue);
 		plot.show();
-	} // Fin FCM
+	} // Fin HCM
 
 	int indice;
 	double min, max;
