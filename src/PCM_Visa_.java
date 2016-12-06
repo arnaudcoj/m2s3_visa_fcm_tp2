@@ -174,7 +174,7 @@ public class PCM_Visa_ implements PlugIn {
 		seuil = valeur_seuil;
 
 		/////////////////// A COMPLETER ///////////////////////////////
-		while ((iter < itermax) && (stab > seuil)) {
+		while ((iter < itermax) && (stab >= seuil)) {
 
 			// Update the matrix of centroids
 			for (k = 0; k < nbclasses; k++) {
@@ -257,7 +257,7 @@ public class PCM_Visa_ implements PlugIn {
 			}
 			
 			if(iter > 0)
-				stab = figJ[iter] - figJ[iter - 1];
+				stab = Math.abs(figJ[iter] - figJ[iter - 1]);
 		
 			iter++;
 			

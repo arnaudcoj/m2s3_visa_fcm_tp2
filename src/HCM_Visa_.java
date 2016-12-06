@@ -178,7 +178,7 @@ public class HCM_Visa_ implements PlugIn {
 		seuil = valeur_seuil;
 
 		/////////////////// A COMPLETER ///////////////////////////////
-		while ((iter < itermax) && (stab > seuil)) {
+		while ((iter < itermax) && (stab >= seuil)) {
 
 			// Update the matrix of centroids
 			for (k = 0; k < nbclasses; k++) {

@@ -160,7 +160,7 @@ public class FCM_Visa_ implements PlugIn {
 				double uij = 0.;
 				for(k = 0; k < kmax; k++) {
 					if (Dprev[k][j] != 0) {
-						uij += Math.pow(Dprev[i][j] / Dprev[k][j], 2d / (m - 1d));
+						uij += Math.pow(Dprev[i][j] / Dprev[k][j], 1d / (m - 1d));
 					} else {
 						uij += 1d;
 					}
@@ -225,7 +225,7 @@ public class FCM_Visa_ implements PlugIn {
 					double uij = 0.;
 					for(k = 0; k < kmax; k++) {
 						if (Dmat[k][j] != 0) {
-							uij += Math.pow(Dmat[i][j] / Dmat[k][j], 2. / (m - 1.));
+							uij += Math.pow(Dmat[i][j] / Dmat[k][j], 1. / (m - 1.));
 						} else {
 							uij += 1d;
 						}
