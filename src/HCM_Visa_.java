@@ -72,9 +72,9 @@ public class HCM_Visa_ implements PlugIn {
 		//mes valeurs par defaut, pour debug
 		nbclasses = 6;
 		nbpixels = width * height;
-		double m = 2d;
+		double m = 1d;
 		int itermax = 100;
-		valeur_seuil = 0.000001;
+		valeur_seuil = 0.01;
 		int valeur = 1;
 		*/
 		
@@ -237,8 +237,11 @@ public class HCM_Visa_ implements PlugIn {
 			}
 			
 			if(iter > 0)
-				stab = figJ[iter] - figJ[iter - 1];
+				stab = Math.abs(figJ[iter] - figJ[iter - 1]);
 		
+			
+			System.out.println(iter + " : " + stab);
+			
 			iter++;
 			
 			for (k = 0; k < kmax; k++) {
