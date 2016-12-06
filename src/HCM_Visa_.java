@@ -240,7 +240,7 @@ public class HCM_Visa_ implements PlugIn {
 				stab = Math.abs(figJ[iter] - figJ[iter - 1]);
 		
 			
-			System.out.println(iter + " : " + stab);
+			//System.out.println(iter + " : " + stab);
 			
 			iter++;
 			

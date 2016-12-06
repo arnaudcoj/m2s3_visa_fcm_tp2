@@ -51,7 +51,7 @@ public class PCM_Visa_ implements PlugIn {
 		int nbclasses, nbpixels, iter;
 		double stab, seuil, valeur_seuil;
 		int i, j, k, l, imax, jmax, kmax;
-
+/*
 		String demande = JOptionPane.showInputDialog("Nombre de classes : ");
 		nbclasses = Integer.parseInt(demande);
 		nbpixels = width * height; // taille de l'image en pixels
@@ -67,16 +67,16 @@ public class PCM_Visa_ implements PlugIn {
 
 		demande = JOptionPane.showInputDialog("Randomisation am�lior�e ? ");
 		int valeur = Integer.parseInt(demande);
-
-		/*
+*/
+		
 		//mes valeurs par defaut, pour debug
 		nbclasses = 6;
 		nbpixels = width * height;
 		double m = 2d;
 		int itermax = 100;
-		valeur_seuil = 0;
+		valeur_seuil = 0.01;
 		int valeur = 1;
-		*/
+		
 		
 		double c[][] = new double[nbclasses][3];
 		double cprev[][] = new double[nbclasses][3];
@@ -242,23 +242,26 @@ public class PCM_Visa_ implements PlugIn {
 			//compute performance index
 			{
 				figJ[iter] = 0;
-				double first_sum = 1;
-				double second_sum = 1;
+				double first_sum = 0;
+				double second_sum = 0;
+				double second_sum_tmp = 0;
 				for(i = 0; i < nbclasses; i++) {
-					first_sum = 0;
-					second_sum = 0;
+					second_sum_tmp = 0;
 					for (j = 0; j < nbpixels; j++) {
 						 first_sum += Math.pow(Umat[i][j], m) * Dmat[i][j];
-						 second_sum += Math.pow(1 - Umat[i][j], m);
+						 second_sum_tmp += Math.pow(1 - Umat[i][j], m);
 					}
-					second_sum *= n[i];
+					second_sum_tmp *= n[i];
+					second_sum += second_sum_tmp;
 				}
 				figJ[iter] = first_sum + second_sum;
 			}
 			
 			if(iter > 0)
 				stab = Math.abs(figJ[iter] - figJ[iter - 1]);
-		
+
+			System.out.println(iter + " : " + stab);
+			
 			iter++;
 			
 			for (k = 0; k < kmax; k++) {

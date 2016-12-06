@@ -52,7 +52,7 @@ public class FCM_Visa_ implements PlugIn {
 		double stab, seuil, valeur_seuil;
 		int i, j, k, l, imax, jmax, kmax;
 
-		/*String demande = JOptionPane.showInputDialog("Nombre de classes : ");
+		String demande = JOptionPane.showInputDialog("Nombre de classes : ");
 		nbclasses = Integer.parseInt(demande);
 		nbpixels = width * height; // taille de l'image en pixels
 
@@ -67,16 +67,16 @@ public class FCM_Visa_ implements PlugIn {
 
 		demande = JOptionPane.showInputDialog("Randomisation am�lior�e ? ");
 		int valeur = Integer.parseInt(demande);
-		*/
+		
 		
 		//mes valeurs par defaut, pour debug
-		nbclasses = 6;
+		/*nbclasses = 6;
 		nbpixels = width * height;
 		double m = 2d;
 		int itermax = 100;
-		valeur_seuil = 0.000001;
+		valeur_seuil = 0.1;
 		int valeur = 1;
-		
+		*/
 		
 		
 		double c[][] = new double[nbclasses][3];
@@ -244,7 +244,7 @@ public class FCM_Visa_ implements PlugIn {
 			if(iter > 0)
 				stab = Math.abs(figJ[iter] - figJ[iter - 1]);
 		
-			System.out.println(iter + " : " + stab);
+			//System.out.println(iter + " : " + stab);
 			
 			iter++;
 			
