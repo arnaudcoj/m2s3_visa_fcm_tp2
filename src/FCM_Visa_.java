@@ -52,7 +52,7 @@ public class FCM_Visa_ implements PlugIn {
 		double stab, seuil, valeur_seuil;
 		int i, j, k, l, imax, jmax, kmax;
 
-		String demande = JOptionPane.showInputDialog("Nombre de classes : ");
+		/*String demande = JOptionPane.showInputDialog("Nombre de classes : ");
 		nbclasses = Integer.parseInt(demande);
 		nbpixels = width * height; // taille de l'image en pixels
 
@@ -67,8 +67,8 @@ public class FCM_Visa_ implements PlugIn {
 
 		demande = JOptionPane.showInputDialog("Randomisation am�lior�e ? ");
 		int valeur = Integer.parseInt(demande);
+		*/
 		
-		/*
 		//mes valeurs par defaut, pour debug
 		nbclasses = 6;
 		nbpixels = width * height;
@@ -76,7 +76,7 @@ public class FCM_Visa_ implements PlugIn {
 		int itermax = 100;
 		valeur_seuil = 0.000001;
 		int valeur = 1;
-		*/
+		
 		
 		
 		double c[][] = new double[nbclasses][3];
@@ -181,7 +181,7 @@ public class FCM_Visa_ implements PlugIn {
 		seuil = valeur_seuil;
 
 		/////////////////// A COMPLETER ///////////////////////////////
-		while ((iter < itermax) && (stab > seuil)) {
+		while ((iter < itermax) && (stab >= seuil)) {
 
 			// Update the matrix of centroids
 			for (k = 0; k < nbclasses; k++) {
@@ -242,8 +242,10 @@ public class FCM_Visa_ implements PlugIn {
 			}
 			
 			if(iter > 0)
-				stab = figJ[iter] - figJ[iter - 1];
+				stab = Math.abs(figJ[iter] - figJ[iter - 1]);
 		
+			System.out.println(iter + " : " + stab);
+			
 			iter++;
 			
 			for (k = 0; k < kmax; k++) {
