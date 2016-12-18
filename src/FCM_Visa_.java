@@ -51,7 +51,7 @@ public class FCM_Visa_ implements PlugIn {
 		int nbclasses, nbpixels, iter;
 		double stab, seuil, valeur_seuil;
 		int i, j, k, l, imax, jmax, kmax;
-
+/*
 		String demande = JOptionPane.showInputDialog("Nombre de classes : ");
 		nbclasses = Integer.parseInt(demande);
 		nbpixels = width * height; // taille de l'image en pixels
@@ -68,16 +68,15 @@ public class FCM_Visa_ implements PlugIn {
 		demande = JOptionPane.showInputDialog("Randomisation am�lior�e ? ");
 		int valeur = Integer.parseInt(demande);
 		
+		*/
 		
 		//mes valeurs par defaut, pour debug
-		/*nbclasses = 6;
+		nbclasses = 6;
 		nbpixels = width * height;
 		double m = 2d;
 		int itermax = 100;
 		valeur_seuil = 0.1;
 		int valeur = 1;
-		*/
-		
 		
 		double c[][] = new double[nbclasses][3];
 		double cprev[][] = new double[nbclasses][3];
@@ -155,8 +154,8 @@ public class FCM_Visa_ implements PlugIn {
 
 		// Initialisation des degr�s d'appartenance
 		// A COMPLETER
-		for (i = 0; i < nbclasses; i++) {
-			for (j = 0; j < nbpixels; j++) {
+		for (j = 0; j < nbpixels; j++) {
+			for (i = 0; i < nbclasses; i++) {
 				double uij = 0.;
 				for(k = 0; k < kmax; k++) {
 					if (Dprev[k][j] != 0) {
@@ -207,8 +206,8 @@ public class FCM_Visa_ implements PlugIn {
 			
 			// Compute Dmat, the matrix of distances (euclidian) with the
 			// centro�ds
-			for (k = 0; k < kmax; k++) {
-				for (i = 0; i < nbpixels; i++) {
+			for (i = 0; i < nbpixels; i++) {
+				for (k = 0; k < kmax; k++) {
 					double r2 = Math.pow(red[i] - c[k][0], 2);
 					double g2 = Math.pow(green[i] - c[k][1], 2);
 					double b2 = Math.pow(blue[i] - c[k][2], 2);
@@ -220,8 +219,8 @@ public class FCM_Visa_ implements PlugIn {
 			// partition (performance index)
 			
 			//degre d'appartenance
-			for (i = 0; i < nbclasses; i++) {
-				for (j = 0; j < nbpixels; j++) {
+			for (j = 0; j < nbpixels; j++) {
+				for (i = 0; i < nbclasses; i++) {
 					double uij = 0.;
 					for(k = 0; k < kmax; k++) {
 						if (Dmat[k][j] != 0) {
